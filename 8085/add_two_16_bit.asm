@@ -1,21 +1,32 @@
-;A645H , load the 45H in 1080H and A6H in 1081H
-;9B23H, load the 23H in 1082H and 9BH in 1083H
+; Load the 16-bit data stored at memory addresses 1080H and 1081H into HL (45H, A6H)
+LHLD 1080H        ; Load HL with data 45H (at 1080H) and A6H (at 1081H)
 
-;add the two 16 bit numbers and store the result in 1084H and 1085H
+; Store HL in DE register pair
+XCHG              ; Exchange HL with DE
 
-LHLD 1080H;  load the 16-bit data stored at a specific memory address into the HL register pair.
-XCHG ; To store the content of the HL register pair in the DE register pair.
+; Load the 16-bit data stored at memory addresses 1082H and 1083H into HL (23H, 9BH)
+LHLD 1082H        ; Load HL with data 23H (at 1082H) and 9BH (at 1083H)
 
-LHLD 1082H;  load the 16-bit data stored at a specific memory address into the HL register pair.
+; Add DE to HL, result stored in HL
+DAD D             ; HL = HL + DE (16-bit addition)
 
-DAD D;  add the content of the DE register pair to the HL register pair.[Double addition]
+; Initialize carry register (C) to 00H
+MVI C, 00H        ; Clear the C register (no carry)
 
-MVI C,00H;  initialize the C register with 00H [i.e no carry]
+; Check if carry occurred after the addition (CY flag)
+JNC loop          ; Jump if no carry (CY = 0)
 
-JNC loop; if there is no carry then jump to the label loop
-INR C; if there is a carry then increment the register C by 1
+; If carry occurred, increment the C register
+INR C             ; Increment C by 1 (carry occurred)
 
-loop: SHLD 1084H;  store the 16-bit data stored in the HL register pair at a specific memory address.
-      MOV A, C;  move the content of the C register to the accumulator.
-      STA 1086H;  store the 8-bit data stored in the accumulator at a specific memory address.
-      HLT;  halt the program
+
+; Store the result (HL register pair) into memory (1084H and 1085H)
+loop: SHLD 1084H        ; Store HL into memory at 1084H and 1085H
+
+; Move the value of the C register (carry) into the accumulator
+MOV A, C          ; Move C into A (Accumulator)
+
+; Store the carry value in memory at 1086H
+STA 1086H         ; Store A (C value) at memory address 1086H
+
+HLT                ; Halt the program

@@ -4,7 +4,7 @@
 ;load the data 15H in memory location 1081H
 
 LXI H, 1080H ;loading the memory location 1080H in the HL pair
-MOV A, M ; Movinng the content of the memory location C050H to the accumulator
+MOV A, M ; Movinng the content of the memory location 1080H to the accumulator
 INX H ; Increasing the HL pair by one [i.e 1080H to 1081H]
 
 ;Considering the register B as the carry register
