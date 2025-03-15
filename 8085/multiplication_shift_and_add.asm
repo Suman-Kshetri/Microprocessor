@@ -7,8 +7,7 @@ MOV D, M           ; Load the second number (4) into D
 
 MOV E, B           ; Copy the first number into E (for result)
 
-NEXT2:
-ADD E              ; A = A + E
+NEXT2:ADD E              ; A = A + E
 DCR D              ; Decrease D (loop counter for the second operand)
 JNZ NEXT2          ; Repeat if D is not zero
 
